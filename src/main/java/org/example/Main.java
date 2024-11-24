@@ -26,8 +26,8 @@ public class Main {
             em.getTransaction().begin();
 
             ProductTbl tbl = new ProductTbl();
-            tbl.setId(2L);
-            tbl.setDescription("Super");
+            tbl.setId(3L);
+            tbl.setDescription("Super Nova");
             em.persist(tbl);
 
             em.getTransaction().commit();
