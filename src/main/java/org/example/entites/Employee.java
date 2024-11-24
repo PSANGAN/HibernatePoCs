@@ -1,22 +1,21 @@
 package org.example.entites;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "EmployeeTbl")
 public class Employee {
     @Id
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID) // Like SQL server Identity...
+    private String id;
     private String name;
     private String Address;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -21,7 +21,7 @@ public class Main {
         // Approach - 2, Using Custom Persistence class
         Map<String, String> props = new HashMap<>();
         props.put("hibernate.show_sql","true");
-        props.put("hibernate.hdm2ddl.auto","create");
+        props.put("hibernate.hbm2ddl.auto", "create");
 
         EntityManagerFactory emf = new HibernatePersistenceProvider()
                 .createContainerEntityManagerFactory(new CustomPersistenceUnit(),props);
@@ -37,14 +37,14 @@ public class Main {
 //            tbl.setDescription("Super Nova");
 //            em.persist(tbl);
 
-//            Employee emp = em.find(Employee.class,101L);
+//            Employee emp = em.getReference(Employee.class,101L);
 //            System.out.println(emp.toString());
+//            emp.setName("Adam");
 //
-//            Employee emp2 =  new Employee();
-//            emp2.setId(500L);
-//            emp2.setName("NASDAQ");
-//            emp2.setAddress("NY,USA");
-//            em.merge(emp2); // if new Id then insert or update...
+            Employee emp2 =  new Employee();
+            emp2.setName("NASDAQ");
+            emp2.setAddress("NY,USA");
+            em.persist(emp2);
 //
 //            emp.setAddress("PKT");
 //            em.merge(emp); // Update (since existing entity)
