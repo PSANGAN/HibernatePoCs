@@ -1,12 +1,15 @@
 package org.example.entites;
 
 import jakarta.persistence.*;
+import org.example.id.generators.UUIDGenerator;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "EmployeeTbl")
 public class Employee {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID) // Like SQL server Identity...
+    @GeneratedValue(generator = "UUIDGenerator") // Like SQL server Identity...
+    @GenericGenerator(name="UUIDGenerator", type = UUIDGenerator.class) // Deprecated
     private String id;
     private String name;
     private String Address;

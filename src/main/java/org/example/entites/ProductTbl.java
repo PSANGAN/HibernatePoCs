@@ -3,28 +3,49 @@ package org.example.entites;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
+import org.example.id.generators.keys.ProductKey;
 
 @Entity
+@IdClass(ProductKey.class)
 public class ProductTbl {
 
     @Id
-    private Long id;
-    private String description;
+    private String code;
+    @Id
+    private long number;
+    private String Color;
 
-    public Long getId() {
-        return id;
+    public String getCode() {
+        return code;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public String getDescription() {
-        return description;
+    public long getNumber() {
+        return number;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setNumber(long number) {
+        this.number = number;
     }
 
+    public String getColor() {
+        return Color;
+    }
+
+    public void setColor(String color) {
+        Color = color;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductTbl{" +
+                "code='" + code + '\'' +
+                ", number=" + number +
+                ", Color='" + Color + '\'' +
+                '}';
+    }
 }
