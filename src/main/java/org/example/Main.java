@@ -6,6 +6,8 @@ import jakarta.persistence.Persistence;
 import org.example.entites.Employee;
 import org.example.entites.ProductTbl;
 import org.example.entites.Student;
+import org.example.entites.relationships.Passport;
+import org.example.entites.relationships.Person;
 import org.example.id.generators.keys.StudentKey;
 import org.example.persistance.CustomPersistenceUnit;
 import org.hibernate.jpa.HibernatePersistenceProvider;
@@ -25,7 +27,7 @@ public class Main {
 
         Map<String, String> props = new HashMap<>();
         props.put("hibernate.show_sql","true");
-        props.put("hibernate.hbm2ddl.auto", "none"); // create, none, update
+        props.put("hibernate.hbm2ddl.auto", "create"); // create, none, update
 
         EntityManagerFactory emf = new HibernatePersistenceProvider()
                 .createContainerEntityManagerFactory(new CustomPersistenceUnit(),props);
@@ -67,18 +69,31 @@ public class Main {
 //            tbl.setColor("red");
 //            em.persist(tbl);
 
+//            StudentKey key = new StudentKey();
+//            key.setCode("VLB");
+//            key.setNumber(200120205);
+//            Student student = new Student();
+//            student.setId(key);
+//            student.setName("ECE");
+//            em.persist(student);
+//
+//            student = em.find(Student.class, key);
+//            System.out.println(student.toString());
+
             ///endregion
 
-            StudentKey key = new StudentKey();
-            key.setCode("VLB");
-            key.setNumber(200120205);
-            Student student = new Student();
-            student.setId(key);
-            student.setName("ECE");
-            em.persist(student);
+            Person  person  = new Person();
+            person.setName("GAN GAN");
 
-            student = em.find(Student.class, key);
-            System.out.println(student.toString());
+            Passport passport = new Passport();
+            passport.setNumber("B1237");
+
+            person.setPassport(passport);
+            passport.setPerson(person);
+
+            // No need since CaseCade option is added in the owner
+            //em.persist(passport);
+            em.persist(person);
 
             em.getTransaction().commit();
             System.out.println("Done!!!");
