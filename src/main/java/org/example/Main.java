@@ -8,6 +8,7 @@ import org.example.entites.ProductTbl;
 import org.example.entites.Student;
 import org.example.entites.relationships.Passport;
 import org.example.entites.relationships.Person;
+import org.example.entites.relationships.UserInfo;
 import org.example.id.generators.keys.StudentKey;
 import org.example.persistance.CustomPersistenceUnit;
 import org.hibernate.jpa.HibernatePersistenceProvider;
@@ -80,20 +81,26 @@ public class Main {
 //            student = em.find(Student.class, key);
 //            System.out.println(student.toString());
 
+//            Person  person  = new Person();
+//            person.setName("GAN GAN");
+//
+//            Passport passport = new Passport();
+//            passport.setNumber("B1237");
+//
+//            person.setPassport(passport);
+//            passport.setPerson(person);
+//
+//            // No need since CaseCade option is added in the owner
+//            //em.persist(passport);
+//            em.persist(person);
+
+
             ///endregion
 
-            Person  person  = new Person();
-            person.setName("GAN GAN");
-
-            Passport passport = new Passport();
-            passport.setNumber("B1237");
-
-            person.setPassport(passport);
-            passport.setPerson(person);
-
-            // No need since CaseCade option is added in the owner
-            //em.persist(passport);
-            em.persist(person);
+            UserInfo user = new UserInfo();
+            user.setName("Saranya");
+            user.setDescription("Housewife");
+            em.persist(user);
 
             em.getTransaction().commit();
             System.out.println("Done!!!");
