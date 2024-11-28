@@ -107,8 +107,11 @@ public class Main {
 
             Comment comment1 = new Comment();
             comment1.setContent("Comment -1");
+            comment1.setPost(p);
             Comment comment2 = new Comment();
-            comment1.setContent("Comment -2");
+            comment2.setContent("Comment -2");
+            comment2.setPost(p);
+
             p.setComments(List.of(comment1,comment2));
 
             em.persist(p);

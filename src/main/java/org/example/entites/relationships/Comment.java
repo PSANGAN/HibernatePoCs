@@ -10,9 +10,9 @@ public class Comment {
     private Integer id;
     private String content;
 
-//    @ManyToOne
-//    @JoinColumn(name = "post")
-//    private Post post;
+    @ManyToOne
+    @JoinColumn(name = "post")
+    private Post post;
 
     public Integer getId() {
         return id;
@@ -30,4 +30,11 @@ public class Comment {
         this.content = content;
     }
 
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
 }
