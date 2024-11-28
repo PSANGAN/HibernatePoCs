@@ -66,7 +66,9 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
                         "org.example.entites.Student",
                 "org.example.entites.relationships.Passport",
                 "org.example.entites.relationships.Person",
-                "org.example.entites.relationships.UserInfo");
+                "org.example.entites.relationships.UserInfo",
+                "org.example.entites.relationships.Comment",
+                "org.example.entites.relationships.Post");
     }
 
     @Override

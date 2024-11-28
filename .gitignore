@@ -43,3 +43,5 @@ build/
 /.idea
 /.idea
 /.idea
+*.xml
+/.idea

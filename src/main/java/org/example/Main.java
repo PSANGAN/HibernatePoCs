@@ -6,14 +6,13 @@ import jakarta.persistence.Persistence;
 import org.example.entites.Employee;
 import org.example.entites.ProductTbl;
 import org.example.entites.Student;
-import org.example.entites.relationships.Passport;
-import org.example.entites.relationships.Person;
-import org.example.entites.relationships.UserInfo;
+import org.example.entites.relationships.*;
 import org.example.id.generators.keys.StudentKey;
 import org.example.persistance.CustomPersistenceUnit;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Main {
@@ -94,13 +93,27 @@ public class Main {
 //            //em.persist(passport);
 //            em.persist(person);
 
+//            UserInfo user = new UserInfo();
+//            user.setName("Saranya");
+//            user.setDescription("Housewife");
+//            em.persist(user);
+//
 
             ///endregion
 
-            UserInfo user = new UserInfo();
-            user.setName("Saranya");
-            user.setDescription("Housewife");
-            em.persist(user);
+            Post p = new Post();
+            p.setTitle("Post Title");
+            p.setContent("Post Content");
+
+            Comment comment1 = new Comment();
+            comment1.setContent("Comment -1");
+            Comment comment2 = new Comment();
+            comment1.setContent("Comment -2");
+            p.setComments(List.of(comment1,comment2));
+
+            em.persist(p);
+            em.persist(comment1);
+            em.persist(comment2);
 
             em.getTransaction().commit();
             System.out.println("Done!!!");
