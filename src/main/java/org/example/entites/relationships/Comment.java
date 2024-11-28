@@ -10,8 +10,9 @@ public class Comment {
     private Integer id;
     private String content;
 
-    @JoinColumn(name = "post")
-    private Post post;
+//    @ManyToOne
+//    @JoinColumn(name = "post")
+//    private Post post;
 
     public Integer getId() {
         return id;

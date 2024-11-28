@@ -15,7 +15,7 @@ public class Post {
     private String content;
 
     @OneToMany
-    @JoinColumn(name = "post")
+    @JoinColumn(name = "post_id")
     private List<Comment> comments;
 
     public Integer getId() {
