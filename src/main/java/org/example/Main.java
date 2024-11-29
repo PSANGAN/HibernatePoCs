@@ -1,11 +1,10 @@
 package org.example;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+import jakarta.persistence.*;
 import org.example.entites.Employee;
 import org.example.entites.ProductTbl;
 import org.example.entites.Student;
+import org.example.entites.jpql.Product;
 import org.example.entites.relationships.*;
 import org.example.id.generators.keys.StudentKey;
 import org.example.persistance.CustomPersistenceUnit;
@@ -14,6 +13,7 @@ import org.hibernate.jpa.HibernatePersistenceProvider;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class Main {
     public static void main(String[] args) {
@@ -27,7 +27,7 @@ public class Main {
 
         Map<String, String> props = new HashMap<>();
         props.put("hibernate.show_sql","true");
-        props.put("hibernate.hbm2ddl.auto", "create"); // create, none, update
+        props.put("hibernate.hbm2ddl.auto", "none"); // create, none, update
 
         EntityManagerFactory emf = new HibernatePersistenceProvider()
                 .createContainerEntityManagerFactory(new CustomPersistenceUnit(),props);
@@ -142,8 +142,55 @@ public class Main {
 
             ///endregion
 
-          var sql ="SELECT p FROM PRODUCT p";
-          em.createQuery(sql, Product.class).getResultList().forEach(System.out::println);
+        //var jpql ="SELECT p FROM Product p";
+
+        // var jpql = "SELECT p from Product p WHERE p.price > :price AND p.name LIKE :name";
+//            TypedQuery<org.example.entites.jpql.Product> product =
+//                    em.createQuery(jpql, org.example.entites.jpql.Product.class);
+//            product.setParameter("price", 5);
+//            product.setParameter("name", "%S%");
+//            List<Product> productList = product.getResultList();
+//            for(Product p : productList) {
+//                System.out.println(p.toString());
+//            }
+
+//            var jpql = "SELECT AVG(p.price) FROM Product p"; // AVG, SUM, MIN, MAX ....
+//            var jpq2 = "SELECT COUNT(p)  FROM Product p"; // AVG, SUM, MIN, MAX ....
+//
+//            TypedQuery<Double> product =
+//                    em.createQuery(jpql, Double.class);
+//            Double result  = product.getSingleResult();
+//            System.out.println(result);
+//
+//            TypedQuery<Long> product1 =
+//                    em.createQuery(jpq2, Long.class);
+//            Long result1  = product1.getSingleResult();
+//            System.out.println(result1);
+
+
+//            var jpql = "SELECT p.name, AVG(p.price) FROM Product p GROUP BY p.name";
+//
+//            TypedQuery<Object[]> product =
+//                    em.createQuery(jpql, Object[].class);
+//            product.getResultList().forEach(objects -> {
+//                System.out.println(objects[0] + " - " + objects[1]);
+//            } );
+
+            String jpql = "SELECT p FROM Product p WHERE p.name LIKE 'Candy'";
+
+            TypedQuery<Product> q = em.createQuery(jpql, Product.class);
+            // q.getSingleResult(); // jakarta.persistence.NoResultException
+
+            Optional<Product> p;
+            try {
+                p = Optional.of(q.getSingleResult());
+            } catch (NoResultException e) {
+                p = Optional.empty();
+            }
+            p.ifPresentOrElse(
+                    System.out::println,
+                    () -> System.out.println("Product not found")
+            );
 
             em.getTransaction().commit();
             System.out.println("Done!!!");

@@ -6,6 +6,7 @@ import jakarta.persistence.ValidationMode;
 import jakarta.persistence.spi.ClassTransformer;
 import jakarta.persistence.spi.PersistenceUnitInfo;
 import jakarta.persistence.spi.PersistenceUnitTransactionType;
+import org.hibernate.classic.Lifecycle;
 
 import javax.sql.DataSource;
 import java.net.URL;
@@ -76,10 +77,12 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
 //                "org.example.entites.relationships.Book",
 //                "org.example.entites.relationships.Device");
 
-        return List.of(
-                "org.example.entites.relationships.Product",
-                "org.example.entites.relationships.Book",
-                "org.example.entites.relationships.Device");
+//        return List.of(
+//                "org.example.entites.relationships.Product",
+//                "org.example.entites.relationships.Book",
+//                "org.example.entites.relationships.Device");
+
+        return List.of("org.example.entites.jpql.Product");
     }
 
     @Override
