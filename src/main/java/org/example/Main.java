@@ -142,16 +142,8 @@ public class Main {
 
             ///endregion
 
-            Device device = new Device();
-            device.setId(1L);
-            device.setVoltage(150);
-
-            Book book  = new Book();
-            book.setId(1L);
-            book.setAuthor("San Gan");
-
-            em.persist(book);
-            em.persist(device);
+          var sql ="SELECT p FROM PRODUCT p";
+          em.createQuery(sql, Product.class).getResultList().forEach(System.out::println);
 
             em.getTransaction().commit();
             System.out.println("Done!!!");

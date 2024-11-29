@@ -3,12 +3,13 @@ package org.example.entites.relationships;
 import jakarta.persistence.*;
 
 @Entity
-// Separate Table for each class (Parent/Children(s))
-// When we want to query children table then we need to use JOIN clause with Parent.
-@Inheritance(strategy =InheritanceType.JOINED)
+// Each Child has own Table with its own and parent properties
+// If we want to know any one of the children table values then UNION query
+// will be generated
+@Inheritance(strategy =InheritanceType.TABLE_PER_CLASS)
 
 // abstract is optional; caution - Cannot create instance for Product!
-public class Product {
+public abstract class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
