@@ -27,7 +27,7 @@ public class Main {
 
         Map<String, String> props = new HashMap<>();
         props.put("hibernate.show_sql","true");
-        props.put("hibernate.hbm2ddl.auto", "none"); // create, none, update
+        props.put("hibernate.hbm2ddl.auto", "create"); // create, none, update
 
         EntityManagerFactory emf = new HibernatePersistenceProvider()
                 .createContainerEntityManagerFactory(new CustomPersistenceUnit(),props);
@@ -116,30 +116,42 @@ public class Main {
 //            em.persist(comment1);
 //            em.persist(comment2);
 
+//            User u1 = new User();
+//            u1.setName("User-1");
+//
+//            User u2 = new User();
+//            u2.setName("user-2");
+//
+//            Group g1 = new Group();
+//            g1.setName("Group-1");
+//
+//            Group g2 = new Group();
+//            g2.setName("Group-2");
+//
+//            g1.setUsers(List.of(u1,u2));
+//            g2.setUsers(List.of(u1,u2));
+//
+//            u1.setGroups(List.of(g1,g2));
+//            u2.setGroups(List.of(g1,g2));
+//
+//            em.persist(u1);
+//            em.persist(u2);
+//            em.persist(g1);
+//            em.persist(g2);
+
+
             ///endregion
 
-            User u1 = new User();
-            u1.setName("User-1");
+            Device device = new Device();
+            device.setId(1L);
+            device.setVoltage(150);
 
-            User u2 = new User();
-            u2.setName("user-2");
+            Book book  = new Book();
+            book.setId(1L);
+            book.setAuthor("San Gan");
 
-            Group g1 = new Group();
-            g1.setName("Group-1");
-
-            Group g2 = new Group();
-            g2.setName("Group-2");
-
-            g1.setUsers(List.of(u1,u2));
-            g2.setUsers(List.of(u1,u2));
-
-            u1.setGroups(List.of(g1,g2));
-            u2.setGroups(List.of(g1,g2));
-
-            em.persist(u1);
-            em.persist(u2);
-            em.persist(g1);
-            em.persist(g2);
+            em.persist(book);
+            em.persist(device);
 
             em.getTransaction().commit();
             System.out.println("Done!!!");

@@ -61,16 +61,25 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
 
     @Override
     public List<String> getManagedClassNames() {
-        return List.of("org.example.entites.ProductTbl",
-                       "org.example.entites.Employee",
-                        "org.example.entites.Student",
-                "org.example.entites.relationships.Passport",
-                "org.example.entites.relationships.Person",
-                "org.example.entites.relationships.UserInfo",
-                "org.example.entites.relationships.Comment",
-                "org.example.entites.relationships.Post",
-                "org.example.entites.relationships.User",
-                "org.example.entites.relationships.Group");
+
+//        return List.of("org.example.entites.ProductTbl",
+//                       "org.example.entites.Employee",
+//                        "org.example.entites.Student",
+//                "org.example.entites.relationships.Passport",
+//                "org.example.entites.relationships.Person",
+//                "org.example.entites.relationships.UserInfo",
+//                "org.example.entites.relationships.Comment",
+//                "org.example.entites.relationships.Post",
+//                "org.example.entites.relationships.User",
+//                "org.example.entites.relationships.Group",
+//                "org.example.entites.relationships.Product",
+//                "org.example.entites.relationships.Book",
+//                "org.example.entites.relationships.Device");
+
+        return List.of(
+                "org.example.entites.relationships.Product",
+                "org.example.entites.relationships.Book",
+                "org.example.entites.relationships.Device");
     }
 
     @Override

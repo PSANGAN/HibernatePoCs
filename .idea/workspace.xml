@@ -5,10 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="59df9e9f-77ce-45a6-8787-05e440e2463c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/entites/relationships/Group.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/entites/relationships/Product.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/entites/relationships/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/entites/relationships/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/entites/relationships/Book.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/entites/relationships/Device.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/entites/relationships/Device.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/entites/relationships/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/entites/relationships/Product.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/persistance/CustomPersistenceUnit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/persistance/CustomPersistenceUnit.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -40,16 +40,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Run.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.HibernateBasic [install].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/PGS/GitHub/Hibernate/HibernatePoCs&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Run.executor": "Run",
+    "Maven.HibernateBasic [install].executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/PGS/GitHub/Hibernate/HibernatePoCs"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="org.example.entites.relationships" />
@@ -79,5 +79,49 @@
       <updated>1732409678618</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>jar://$MAVEN_REPOSITORY$/org/hibernate/orm/hibernate-core/6.6.3.Final/hibernate-core-6.6.3.Final.jar!/org/hibernate/internal/SessionImpl.class</url>
+          <line>766</line>
+          <properties class="org.hibernate.internal.SessionImpl" method="merge">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>jar://$MAVEN_REPOSITORY$/org/hibernate/orm/hibernate-core/6.6.3.Final/hibernate-core-6.6.3.Final.jar!/org/hibernate/internal/SessionImpl.class</url>
+          <line>743</line>
+          <properties class="org.hibernate.internal.SessionImpl" method="firePersist">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/Main.java</url>
+          <line>144</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/org/hibernate/orm/hibernate-core/6.6.3.Final/hibernate-core-6.6.3.Final.jar!/org/hibernate/event/internal/EntityState.class</url>
+          <line>29</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/org/hibernate/orm/hibernate-core/6.6.3.Final/hibernate-core-6.6.3.Final-sources.jar!/org/hibernate/event/internal/EntityState.java</url>
+          <line>45</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="org.example.entites.relationships.Device" memberName="voltage" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
 </project>
