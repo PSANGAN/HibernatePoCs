@@ -3,13 +3,14 @@ package org.example;
 import jakarta.persistence.*;
 import org.example.entites.Employee;
 import org.example.entites.ProductTbl;
-import org.example.entites.Student;
+import org.example.entites.dto.CountedEnrollmentForStudent;
+import org.example.entites.dto.EnrolledStudent;
 import org.example.entites.jpql.Product;
 import org.example.entites.relationships.*;
 import org.example.id.generators.keys.StudentKey;
 import org.example.persistance.CustomPersistenceUnit;
 import org.hibernate.jpa.HibernatePersistenceProvider;
-
+import org.example.entites.jpql.Student;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -139,12 +140,25 @@ public class Main {
 //            em.persist(g1);
 //            em.persist(g2);
 
+//            String jpql = "SELECT p FROM Product p WHERE p.name LIKE 'Candy'";
+//
+//            TypedQuery<Product> q = em.createQuery(jpql, Product.class);
+//            // q.getSingleResult(); // jakarta.persistence.NoResultException
+//
+//            Optional<Product> p;
+//            try {
+//                p = Optional.of(q.getSingleResult());
+//            } catch (NoResultException e) {
+//                p = Optional.empty();
+//            }
+//            p.ifPresentOrElse(
+//                    System.out::println,
+//                    () -> System.out.println("Product not found")
+//            );
 
-            ///endregion
+            //var jpql ="SELECT p FROM Product p";
 
-        //var jpql ="SELECT p FROM Product p";
-
-        // var jpql = "SELECT p from Product p WHERE p.price > :price AND p.name LIKE :name";
+            // var jpql = "SELECT p from Product p WHERE p.price > :price AND p.name LIKE :name";
 //            TypedQuery<org.example.entites.jpql.Product> product =
 //                    em.createQuery(jpql, org.example.entites.jpql.Product.class);
 //            product.setParameter("price", 5);
@@ -176,21 +190,46 @@ public class Main {
 //                System.out.println(objects[0] + " - " + objects[1]);
 //            } );
 
-            String jpql = "SELECT p FROM Product p WHERE p.name LIKE 'Candy'";
 
-            TypedQuery<Product> q = em.createQuery(jpql, Product.class);
-            // q.getSingleResult(); // jakarta.persistence.NoResultException
+            ///endregion
 
-            Optional<Product> p;
-            try {
-                p = Optional.of(q.getSingleResult());
-            } catch (NoResultException e) {
-                p = Optional.empty();
-            }
-            p.ifPresentOrElse(
-                    System.out::println,
-                    () -> System.out.println("Product not found")
-            );
+//            var jpql = """
+//                        SELECT s, e FROM Student s JOIN s.enrollments e
+//                        SELECT s, e FROM Student s, Enrollment e WHERE s.id = e.student.id
+//                        SELECT s,e FROM Student s, Enrollment e WHERE s=e.student
+//                        SELECT s,e FROM Student s LEFT JOIN s.enrollments e
+//                       """;
+
+//            TypedQuery<Object[]> q = em.createQuery(jpql, Object[].class);
+//            q.getResultList().forEach(o -> System.out.println(o[0]+ " - " + o[1]));
+
+//            var jpql = """
+//                          SELECT s FROM Student s WHERE
+//                             (SELECT COUNT(e) FROM Enrollment e WHERE e.student.id = s.id) > 1
+//                       """;
+//            TypedQuery<Student> q = em.createQuery(jpql, Student.class);
+//            q.getResultList().forEach(o -> System.out.println(o));
+
+//            String jpql = """
+//                    SELECT NEW org.example.entites.dto.EnrolledStudent(s, e) FROM Student s RIGHT JOIN s.enrollments e
+//                    """;
+//           TypedQuery<EnrolledStudent> dto = em.createQuery(jpql, EnrolledStudent.class);
+//            dto.getResultList().forEach(o -> System.out.println(o.student() + " " + o.enrollment()));
+
+//            var jpql = """
+//                       SELECT (SELECT count(e) FROM Enrollment e WHERE e.student=s) FROM Student s
+//                       """;
+//            TypedQuery<Long> q = em.createQuery(jpql, Long.class);
+//            q.getResultList().forEach(o -> System.out.println(o));
+
+            String jpql = """
+                    SELECT NEW org.example.entites.dto.CountedEnrollmentForStudent(s, 
+                    (SELECT count(e) FROM Enrollment e WHERE e.student = s) )
+                    FROM Student s 
+                    """;
+            TypedQuery<CountedEnrollmentForStudent> q = em.createQuery(jpql, CountedEnrollmentForStudent.class);
+            q.getResultList().forEach(o -> System.out.println(o.s() + " " + o.count()));
+
 
             em.getTransaction().commit();
             System.out.println("Done!!!");
