@@ -190,10 +190,9 @@ public class Main {
 //                System.out.println(objects[0] + " - " + objects[1]);
 //            } );
 
+            // JpQL -- START
 
-            ///endregion
-
-//            var jpql = """
+            //            var jpql = """
 //                        SELECT s, e FROM Student s JOIN s.enrollments e
 //                        SELECT s, e FROM Student s, Enrollment e WHERE s.id = e.student.id
 //                        SELECT s,e FROM Student s, Enrollment e WHERE s=e.student
@@ -222,15 +221,40 @@ public class Main {
 //            TypedQuery<Long> q = em.createQuery(jpql, Long.class);
 //            q.getResultList().forEach(o -> System.out.println(o));
 
-            String jpql = """
-                    SELECT NEW org.example.entites.dto.CountedEnrollmentForStudent(s, 
-                    (SELECT count(e) FROM Enrollment e WHERE e.student = s) )
-                    FROM Student s 
+//            String jpql = """
+//                    SELECT NEW org.example.entites.dto.CountedEnrollmentForStudent(s,
+//                    (SELECT count(e) FROM Enrollment e WHERE e.student = s) )
+//                    FROM Student s
+//                    """;
+//            TypedQuery<CountedEnrollmentForStudent> q = em.createQuery(jpql, CountedEnrollmentForStudent.class);
+//            q.getResultList().forEach(o -> System.out.println(o.s() + " " + o.count()));
+
+//            String jpql = """
+//                    SELECT NEW org.example.entites.dto.CountedEnrollmentForStudent(s.name, count(s))
+//                    FROM Student s
+//                    GROUP BY s.name
+//                    HAVING s.name LIKE '%e'
+//                    ORDER BY s.name DESC
+//                    """;
+//
+//            TypedQuery<CountedEnrollmentForStudent> q =
+//                    em.createQuery(jpql, CountedEnrollmentForStudent.class);
+
+//            TypedQuery<Student> q = em.createNamedQuery("getAllEnrolledStudents", Student.class);
+//
+//            q.getResultList().forEach(o -> System.out.println(o));
+
+
+            // JpQL -- END
+
+
+            ///endregion
+
+            String nativeQuery1= """
+                    SELECT * FROM Student
                     """;
-            TypedQuery<CountedEnrollmentForStudent> q = em.createQuery(jpql, CountedEnrollmentForStudent.class);
-            q.getResultList().forEach(o -> System.out.println(o.s() + " " + o.count()));
-
-
+            Query qry = em.createNamedQuery(nativeQuery1, Student.class);
+            
             em.getTransaction().commit();
             System.out.println("Done!!!");
         }
