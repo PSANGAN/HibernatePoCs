@@ -5,9 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="59df9e9f-77ce-45a6-8787-05e440e2463c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/entites/jpql/DistinctStudent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/entites/criteria/Author.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/entites/criteria/Book.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/entites/criteria/BookShop.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/persistance/CustomPersistenceUnit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/persistance/CustomPersistenceUnit.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
