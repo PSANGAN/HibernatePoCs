@@ -1,10 +1,14 @@
 package org.example;
 
 import jakarta.persistence.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import org.example.entites.Employee;
 import org.example.entites.ProductTbl;
 import org.example.entites.dto.CountedEnrollmentForStudent;
 import org.example.entites.dto.EnrolledStudent;
+import org.example.entites.jpql.DistinctStudent;
 import org.example.entites.jpql.Product;
 import org.example.entites.relationships.*;
 import org.example.id.generators.keys.StudentKey;
@@ -247,14 +251,69 @@ public class Main {
 
             // JpQL -- END
 
+            ////            String nativeQuery1= """
+////                    SELECT * FROM student
+////                    """;
+////            Query qry = em.createNativeQuery(nativeQuery1, Student.class);
+////            qry.getResultList().forEach(System.out::println);
+//
+//
+//            // JpQL for SQL View,mapped by Class.
+////            String nativeQuery1= """
+////                    SELECT s FROM DistinctStudent s
+////                    """;
+////            TypedQuery<DistinctStudent> qry = em.createQuery(nativeQuery1, DistinctStudent.class);
+////            qry.getResultList().forEach(System.out::println);
+//
+//            // SQL Stored Proc with input param, mapped by Class
+//          StoredProcedureQuery query =  em.createStoredProcedureQuery("dbo.getStudents", Student.class)
+//                            .registerStoredProcedureParameter("id", Integer.class, ParameterMode.IN)
+//                                    .setParameter("id",2);
+//            query.getResultList().forEach(System.out::println);
 
             ///endregion
 
-            String nativeQuery1= """
-                    SELECT * FROM Student
-                    """;
-            Query qry = em.createNamedQuery(nativeQuery1, Student.class);
-            
+            CriteriaBuilder builder = em.getCriteriaBuilder();
+
+          // SELECT s FROM Student s
+          // CriteriaQuery<Student> studentCriteriaQuery = builder.createQuery(Student.class);
+          // Root<Student> studentRoot = studentCriteriaQuery.from(Student.class);
+          // studentCriteriaQuery.select(studentRoot);
+          // TypedQuery<Student> typedQuery = em.createQuery(studentCriteriaQuery);
+
+            // SELECT s.name from Student s
+//            CriteriaQuery<String> studentCriteriaQuery = builder.createQuery(String.class);
+//            Root<Student> studentRoot = studentCriteriaQuery.from(Student.class);
+//            studentCriteriaQuery.multiselect(studentRoot.get("name"));
+//            TypedQuery<String> typedQuery = em.createQuery(studentCriteriaQuery);
+
+            // SELECT s.name, s.id from Student s
+//            CriteriaQuery<Object[]> studentCriteriaQuery = builder.createQuery(Object[].class);
+//            Root<Student> studentRoot = studentCriteriaQuery.from(Student.class);
+//            studentCriteriaQuery.multiselect(studentRoot.get("name"), studentRoot.get("id"));
+//            TypedQuery<Object[]> typedQuery = em.createQuery(studentCriteriaQuery);
+//            typedQuery.getResultList().forEach( objects -> System.out.println(objects[0]+" - " + objects[1]));
+
+            // SELECT s.name, s.id from Student s ORDER BY s.id DESC
+//            CriteriaQuery<Object[]> studentCriteriaQuery = builder.createQuery(Object[].class);
+//            Root<Student> studentRoot = studentCriteriaQuery.from(Student.class);
+//            studentCriteriaQuery.multiselect(studentRoot.get("name"), studentRoot.get("id"))
+//                                .orderBy(builder.desc(studentRoot.get("id")));
+//            TypedQuery<Object[]> typedQuery = em.createQuery(studentCriteriaQuery);
+//            typedQuery.getResultList().forEach( objects -> System.out.println(objects[0]+" - " + objects[1]));
+
+            // SELECT s.name, s.id from Student s WHERE s.id > 0 ORDER BY s.id DESC
+            CriteriaQuery<Object[]> studentCriteriaQuery = builder.createQuery(Object[].class);
+            Root<Student> studentRoot = studentCriteriaQuery.from(Student.class);
+            studentCriteriaQuery.multiselect(studentRoot.get("name"), studentRoot.get("id"))
+                                .where(builder.ge(studentRoot.get("id"),0))
+                                .orderBy(builder.desc(studentRoot.get("id")));
+            TypedQuery<Object[]> typedQuery = em.createQuery(studentCriteriaQuery);
+            typedQuery.getResultList().forEach( objects -> System.out.println(objects[0]+" - " + objects[1]));
+
+            //typedQuery.getResultList().forEach(System.out::println);
+
+
             em.getTransaction().commit();
             System.out.println("Done!!!");
         }

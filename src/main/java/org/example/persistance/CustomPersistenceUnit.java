@@ -85,7 +85,8 @@ public class CustomPersistenceUnit implements PersistenceUnitInfo {
         return List.of("org.example.entites.jpql.Product",
                 "org.example.entites.jpql.Student",
                 "org.example.entites.jpql.Course",
-                "org.example.entites.jpql.Enrollment");
+                "org.example.entites.jpql.Enrollment",
+                "org.example.entites.jpql.DistinctStudent");
     }
 
     @Override
