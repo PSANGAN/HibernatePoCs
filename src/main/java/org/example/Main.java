@@ -1,11 +1,12 @@
 package org.example;
 
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
 import org.example.entites.Employee;
 import org.example.entites.ProductTbl;
+import org.example.entites.criteria.Author;
+import org.example.entites.criteria.Book;
+import org.example.entites.criteria.BookShop;
 import org.example.entites.dto.CountedEnrollmentForStudent;
 import org.example.entites.dto.EnrolledStudent;
 import org.example.entites.jpql.DistinctStudent;
@@ -271,7 +272,7 @@ public class Main {
 //                                    .setParameter("id",2);
 //            query.getResultList().forEach(System.out::println);
 
-            CriteriaBuilder builder = em.getCriteriaBuilder();
+//            CriteriaBuilder builder = em.getCriteriaBuilder();
 //
 //          // SELECT s FROM Student s
 //          // CriteriaQuery<Student> studentCriteriaQuery = builder.createQuery(Student.class);
@@ -324,7 +325,41 @@ public class Main {
 
             ///endregion
 
+//            CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+//            CriteriaQuery<Tuple> cqB = criteriaBuilder.createTupleQuery();
 //
+//            Root<Book> bookRoot = cqB.from(Book.class); // SELECT b FROM Book b;
+//            Join<Book, Author> joinAuthor = bookRoot.join("authorsList", JoinType.LEFT);
+//            Join<Book, BookShop> joinBookshop = bookRoot.join("bookShopList", JoinType.LEFT);
+//
+//            cqB.multiselect(bookRoot, joinAuthor, joinBookshop); // SELECT b, a FROM Book b, LEFT OUTER  Author a
+//
+//            TypedQuery<Tuple> tupleQuery = em.createQuery(cqB);
+//            tupleQuery.getResultStream().forEach( tuple -> System.out.println(tuple.get(0)+" - "+tuple.get(1)));
+
+            CriteriaBuilder builder = em.getCriteriaBuilder();
+
+            CriteriaQuery<Author> mainQuery = builder.createQuery(Author.class);
+            Root<Author> authorRoot = mainQuery.from(Author.class);
+
+            /*
+                SELECT a,
+                    (SELECT count(b) FROM Book b JOIN Author a ON b.id IN a.booksList) n
+                FROM Author a WHERE n > 2
+            */
+
+            Subquery<Long> subquery = mainQuery.subquery(Long.class);
+            Root<Author> subRootAuthor = subquery.correlate(authorRoot);
+            Join<Author, Book> authorBookJoin = subRootAuthor.join("booksList");
+
+            subquery.select(builder.count(authorBookJoin));
+            mainQuery.select(authorRoot)
+                    .where(builder.greaterThan(subquery, 0L));
+
+            TypedQuery<Author> q = em.createQuery(mainQuery);
+            q.getResultStream()
+                    .forEach(a -> System.out.println(a));
+
 
 
             em.getTransaction().commit();
