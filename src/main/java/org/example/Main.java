@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
@@ -323,8 +324,6 @@ public class Main {
 //
 //            //typedQuery.getResultList().forEach(System.out::println);
 
-            ///endregion
-
 //            CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
 //            CriteriaQuery<Tuple> cqB = criteriaBuilder.createTupleQuery();
 //
@@ -336,31 +335,72 @@ public class Main {
 //
 //            TypedQuery<Tuple> tupleQuery = em.createQuery(cqB);
 //            tupleQuery.getResultStream().forEach( tuple -> System.out.println(tuple.get(0)+" - "+tuple.get(1)));
+//
+//            CriteriaBuilder builder = em.getCriteriaBuilder();
+//
+//            CriteriaQuery<Author> mainQuery = builder.createQuery(Author.class);
+//            Root<Author> authorRoot = mainQuery.from(Author.class);
+//
+//            /*
+//                SELECT a,
+//                    (SELECT count(b) FROM Book b JOIN Author a ON b.id IN a.booksList) n
+//                FROM Author a WHERE n > 2
+//            */
+//
+//            Subquery<Long> subquery = mainQuery.subquery(Long.class);
+//            Root<Author> subRootAuthor = subquery.correlate(authorRoot);
+//            Join<Author, Book> authorBookJoin = subRootAuthor.join("booksList");
+//
+//            subquery.select(builder.count(authorBookJoin));
+//            mainQuery.select(authorRoot)
+//                    .where(builder.greaterThan(subquery, 0L));
+//
+//            TypedQuery<Author> q = em.createQuery(mainQuery);
+//            q.getResultStream()
+//                    .forEach(a -> System.out.println(a));
 
-            CriteriaBuilder builder = em.getCriteriaBuilder();
 
-            CriteriaQuery<Author> mainQuery = builder.createQuery(Author.class);
-            Root<Author> authorRoot = mainQuery.from(Author.class);
+            ///endregion
 
-            /*
-                SELECT a,
-                    (SELECT count(b) FROM Book b JOIN Author a ON b.id IN a.booksList) n
-                FROM Author a WHERE n > 2
-            */
+//            EntityGraph<?> enGrpah = em.createEntityGraph(Author.class);
+//            enGrpah.addAttributeNodes("booksList");
+//            // Did not work, bcs Author do not have direct relationship with Bookshop
+//            enGrpah.addAttributeNodes("booksShopList");
+//
+//            em.createQuery("SELECT a FROM Author a", Author.class)
+//                            .setHint("javax.persistence.loadgraph", enGrpah)
+//                                    .getResultList().forEach(a -> System.out.println(a.getBooksList()));
+//
+//            EntityGraph<?> enGrpah = em.createEntityGraph(Author.class);
+//            enGrpah.addAttributeNodes("booksList");
+//
+//            em.createQuery("SELECT a FROM Author a", Author.class)
+//                    .setHint("javax.persistence.loadgraph", enGrpah)
+//                    .getResultList().forEach(a -> System.out.println(
+//                            a.getBooksList().stream().map(b -> b.getBookShopList())
+//                                    .collect(Collectors.toList())
+//                    ));
 
-            Subquery<Long> subquery = mainQuery.subquery(Long.class);
-            Root<Author> subRootAuthor = subquery.correlate(authorRoot);
-            Join<Author, Book> authorBookJoin = subRootAuthor.join("booksList");
+//
+//            EntityGraph<?> graph = em.createEntityGraph(Author.class);
+//            Subgraph<?> bookSubGraph = graph.addSubgraph("booksList");
+//            bookSubGraph.addAttributeNodes("bookShopList");
+//
+//            em.createQuery("SELECT a FROM Author a", Author.class)
+//                    .setHint("javax.persistence.loadgraph", graph)
+//                    .getResultList().forEach(a -> System.out.println(
+//                            a.getBooksList()));
 
-            subquery.select(builder.count(authorBookJoin));
-            mainQuery.select(authorRoot)
-                    .where(builder.greaterThan(subquery, 0L));
+            EntityGraph<?> graph = em.getEntityGraph("Author.eagerlyFetchBookShops");
 
-            TypedQuery<Author> q = em.createQuery(mainQuery);
-            q.getResultStream()
-                    .forEach(a -> System.out.println(a));
-
-
+            em.createQuery("SELECT a FROM Author a", Author.class)
+                    .setHint("jakarta.persistence.loadgraph", graph)
+                    .getResultList()
+                    .forEach(a ->
+                            System.out.println(
+                                    a.getBooksList().stream().map(b -> b.getBookShopList()).collect(Collectors.toList())
+                            )
+                    );
 
             em.getTransaction().commit();
             System.out.println("Done!!!");

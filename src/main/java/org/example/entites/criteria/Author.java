@@ -6,6 +6,20 @@ import java.util.List;
 
 @Entity
 @Table(name = "authors")
+@NamedEntityGraphs({
+        @NamedEntityGraph(
+                name = "Author.eagerlyFetchBooks",
+                attributeNodes = @NamedAttributeNode("booksList")
+        ),
+        @NamedEntityGraph(
+                name = "Author.eagerlyFetchBookShops",
+                subgraphs = @NamedSubgraph(
+                        name = "booksList",
+                        type = Book.class,
+                        attributeNodes = @NamedAttributeNode("booksList")
+                )
+        )
+})
 public class Author {
 
     @Id
